@@ -1,16 +1,37 @@
 import "./App.css";
 import MainLayout from "./layouts/MainLayout.jsx";
 import SearchForm from "./components/SearchForm.jsx";
-import Card from "./components/Card.jsx";
+import { useState } from "react";
 
 function App() {
+  const [search, setSearch] = useState("");
+  const [meals, setMeals] = useState([]);
+
+  const handleSearch = (query) => {
+    console.log("Search query:", query);
+
+    // Fetch data from an API or perform search logic here
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Search results:", data);
+        // Handle the search results as needed
+      })
+      .catch((error) => {
+        console.error("Error fetching search results:", error);
+      });
+    setSearch(query);
+    console.log("Search state updated:", query);
+  };
+
   return (
     <MainLayout>
-      <SearchForm />
-      <Card
-        image="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
-        title="Grilled Chicken Salad"
-        desc="A healthy and delicious grilled chicken salad with fresh greens, cherry tomatoes, and a light vinaigrette."
+      <SearchForm
+        search={search}
+        setSearch={setSearch}
+        onSearch={handleSearch}
       />
     </MainLayout>
   );

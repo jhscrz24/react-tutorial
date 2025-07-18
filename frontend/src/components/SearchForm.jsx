@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const SearchForm = ({ onSearch }) => {
-  const [query, setQuery] = useState("");
+const SearchForm = ({ search, setSearch, onSearch }) => {
+  const inputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSearch) onSearch(query);
+    if (onSearch) onSearch(search);
   };
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
 
   return (
     <form
@@ -17,8 +21,9 @@ const SearchForm = ({ onSearch }) => {
         type="text"
         className="flex-1 px-4 py-2 rounded-l bg-gray-700 text-white placeholder-gray-400 focus:outline-none"
         placeholder="Search for meals..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        ref={inputRef}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <button
         type="submit"
