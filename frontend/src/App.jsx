@@ -2,6 +2,7 @@ import "./App.css";
 import MainLayout from "./layouts/MainLayout.jsx";
 import SearchForm from "./components/SearchForm.jsx";
 import { useState } from "react";
+import Card from "./components/Card.jsx";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -16,8 +17,7 @@ function App() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Search results:", data);
-        // Handle the search results as needed
+        setMeals(data.meals);
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
@@ -33,6 +33,14 @@ function App() {
         setSearch={setSearch}
         onSearch={handleSearch}
       />
+
+      {meals.length === 0 && <p className="text-center">No Meals Found</p>}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {meals.map((meal) => (
+          <Card key={meal.idMeal} meal={meal} />
+        ))}
+      </div>
     </MainLayout>
   );
 }
