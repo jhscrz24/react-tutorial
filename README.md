@@ -1,6 +1,6 @@
 # Meal Search API
 
-![Demo App](/public/for-readme.png)
+![Demo App](/frontend/public/for-readme.png)
 
 ### Setup .env file
 
